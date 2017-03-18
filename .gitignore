@@ -3,6 +3,15 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+/build
+/bin
+/target
+/*.classpath
+*.settings/*
+.project
+.settings/
+
+
 # Package Files #
 *.jar
 *.war
