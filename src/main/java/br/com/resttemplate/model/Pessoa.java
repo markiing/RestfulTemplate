@@ -1,7 +1,4 @@
 /**
- * 
- */
-/**
  * @author feras
  *
  */
@@ -10,11 +7,20 @@ package br.com.resttemplate.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-class Pessoa{
+public class Pessoa{
 	
 	private Integer codigo;
 	private String nome;
 	private String cpf;
+	
+	
+	
+	public Pessoa(Integer codigo, String nome, String cpf) {
+		this.codigo = codigo;
+		this.nome = nome;
+		this.cpf = cpf;
+	}
+	
 	
 	public Integer getCodigo() {
 		return codigo;
