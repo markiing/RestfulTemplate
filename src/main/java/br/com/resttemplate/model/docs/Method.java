@@ -13,16 +13,28 @@ import com.thoughtworks.paranamer.Paranamer;
 
 public class Method {
 
-	private Paranamer info = new CachingParanamer(new AnnotationParanamer(new BytecodeReadingParanamer()));
-	private java.lang.reflect.Method nativeMethod;
+	private transient Paranamer info = new CachingParanamer(new AnnotationParanamer(new BytecodeReadingParanamer()));
+	private transient java.lang.reflect.Method nativeMethod;
+	private String name;
 	private String description;
+	private String returnType;
+	private String dateCreation;
+	private String author;
 	private List<br.com.resttemplate.model.docs.Parameter> parameters = new ArrayList<br.com.resttemplate.model.docs.Parameter>();
 	
 	public Method(java.lang.reflect.Method method) {
 		this.nativeMethod = method;
-		//SET METHOD DESCRIPTION
+		this.name = method.getName();
+		this.returnType = method.getReturnType().getCanonicalName();
+		
 		if(method.isAnnotationPresent(MethodDescription.class)){
 			this.description = (String) method.getAnnotation(MethodDescription.class).description();
+			this.author = (String) method.getAnnotation(MethodDescription.class).author();
+			this.dateCreation =(String) method.getAnnotation(MethodDescription.class).dateCreated();
+		}else{
+			this.description = "Nenhuma descrição adicionada para este método :(";
+			this.author = "Autor inexistente ! Por favor, verifique";
+			this.dateCreation = "Data de criação não configurada! Por favor, verifique";
 		}
 		
 		String[] paramName = this.info.lookupParameterNames(method);
@@ -35,16 +47,5 @@ public class Method {
 		}
 	}
 
-	public java.lang.reflect.Method getMethod() {
-		return nativeMethod;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-
-	public List<br.com.resttemplate.model.docs.Parameter> getParameters() {
-		return parameters;
-	}
 	
 }
